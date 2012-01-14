@@ -163,7 +163,7 @@ private:
 
     // Load and parse the specific place(s)
     void getXMLData(const QString& source);
-    bool readXMLData(const QString& source, const QString& xml);
+    bool readXMLData(const QString& source, const QByteArray& xml);
 
     // Check if place specified is valid or not
     QStringList validate(const QString& source) const;
@@ -172,7 +172,7 @@ private:
     QHash<QString, WeatherData> m_weatherData;
 
     // Store KIO jobs
-    QHash<KJob *, QString> m_jobXml;
+    QHash<KJob *, QByteArray> m_jobXml;
     QHash<KJob *, QString> m_jobList;
 
 };

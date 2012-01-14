@@ -10,7 +10,7 @@ License:        GPLv2+
 URL:            http://kde-apps.org/content/show.php?content=
 Source0:        plasma-ion-gismeteo-%{version}.tar.bz2
 
-BuildRequires:  cmake qt-devel kdelibs-devel kdebase-workspace-devel
+BuildRequires:  cmake qt-devel kdelibs-devel kdebase-workspace-devel qt-qlibxmlnodemodel-devel
 
 %description
 KDE Plasma Ion data engine for retrieving weather information from Gismeteo.
@@ -33,6 +33,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %files
 %doc CHANGELOG COPYING README
 %{_libdir}/kde4/ion_%{ion_name}.so
+%{_datadir}/kde4/apps/plasma-ion-%{ion_name}/%{ion_name}.xq
 %{_datadir}/kde4/services/ion-%{ion_name}.desktop
 
 
