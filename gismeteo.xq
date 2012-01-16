@@ -5,12 +5,10 @@ for $elem in //div[@id='weather']/div/div
             <condition> { data($elem/dl/dd) } </condition>
             <temperature> { data($elem/div[2]) } </temperature>
             <pressure> { data($elem/div[3]) } </pressure>
-            <wind>
-                <direction> { data($elem/div[4]/dl/dt) } </direction>
-                <speed> { data($elem/div[4]/dl/dd) } </speed>
-            </wind>
+            <windDirection> { data($elem/div[4]/dl/dt) } </windDirection>
+            <windSpeed> { data($elem/div[4]/dl/dd) } </windSpeed>
             <humidity> { data($elem/div[5]) } </humidity>
-            <waterTemp> { data(//div[@id='water']/div/div//h6/span) } </waterTemp>
+            <waterTemperature> { data(//div[@id='water']/div/div//h6/span) } </waterTemperature>
         </current> ,
 for $elem in //div[@id='astronomy']/div/div/div[2]
     return
@@ -19,6 +17,14 @@ for $elem in //div[@id='astronomy']/div/div/div[2]
             <sunset>  { data($elem/ul[1]/li[2]) } </sunset>
             <moonPhase> { data($elem/ul[2]/li[1]) } </moonPhase>
         </astronomy> ,
+for $day in //div[@id='weather-daily']/div/div[2]/div
+    return
+        <forecast>
+            <day> { data($day/dl/dt) } </day>
+            <icon> { substring-after(data($day/img/@src), 'new/') } </icon>
+            <temperature> { data($day/div) } </temperature>
+        </forecast>,
+<!--
 for $row in //div[@id='weather-daily']/div/div/table/tbody/tr
     return
         <forecast>
@@ -30,5 +36,6 @@ for $row in //div[@id='weather-daily']/div/div/table/tbody/tr
             <windDirection> { data($row/td[5]/dl/dt) } </windDirection>
             <windSpeed> { data($row/td[5]/dl/dd) } </windSpeed>
             <humidity> { data($row/td[6]) } </humidity>
-            <comfort_temp> { data($row/td[7]) } </comfort_temp>
+            <comfortTemperature> { data($row/td[7]) } </comfortTemperature>
         </forecast>
+-->

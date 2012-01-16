@@ -1,7 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Alexey Torkhov <atorkhov@gmail.com>             *
  *                                                                         *
- *   Based on Environment Canada Ion by Shawn Starr                        *
+ *   Based on KDE weather ions by Shawn Starr                        *
  *   Copyright (C) 2007-2009 by Shawn Starr <shawn.starr@rogers.com>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,98 +37,18 @@ class WeatherData
 {
 
 public:
-    // WeatherEvent can have more than one, especially in Canada, eh? :)
-    struct WeatherEvent {
-        QString url;
-        QString type;
-        QString priority;
-        QString description;
-        QString timestamp;
-    };
-
-    // Five day forecast
-    struct ForecastInfo {
-        QString forecastPeriod;
-        QString forecastSummary;
-        QString iconName;
-        QString shortForecast;
-
-        QString forecastTempHigh;
-        QString forecastTempLow;
-        QString popPrecent;
-        QString windForecast;
-
-        QString precipForecast;
-        QString precipType;
-        QString precipTotalExpected;
-        int forecastHumidity;
-    };
-
-    QString countryName;
-    QString longTerritoryName;
-    QString shortTerritoryName;
-    QString cityName;
-    QString regionName;
-    QString stationID;
-    QString stationLat;
-    QString stationLon;
 
     // Current observation information.
-    QString obsTimestamp;
 
-    // Icon info to aproximate periods
-    int iconPeriodHour;
-    int iconPeriodMinute;
+    struct Forecast
+    {
+        QString day;
+        QString icon;
+        QString temperatureHigh;
+        QString temperatureLow;
+    };
+    QList<Forecast> forecasts;
 
-    QString condition;
-    QString temperature;
-    QString dewpoint;
-
-    // In winter windchill, in summer, humidex
-    QString comforttemp;
-
-    float pressure;
-    QString pressureTendency;
-
-    float visibility;
-    QString humidity;
-
-    QString windSpeed;
-    QString windGust;
-    QString windDirection;
-    QString windDegrees;
-
-    QVector <WeatherData::WeatherEvent *> watches;
-    QVector <WeatherData::WeatherEvent *> warnings;
-
-    QString normalHigh;
-    QString normalLow;
-
-    QString forecastTimestamp;
-
-    QString UVIndex;
-    QString UVRating;
-
-    // 5 day Forecast
-    QVector <WeatherData::ForecastInfo *> forecasts;
-
-    // Historical data from previous day.
-    QString prevHigh;
-    QString prevLow;
-    QString prevPrecipType;
-    QString prevPrecipTotal;
-
-    // Almanac info
-    QString sunriseTimestamp;
-    QString sunsetTimestamp;
-    QString moonriseTimestamp;
-    QString moonsetTimestamp;
-
-    // Historical Records
-    float recordHigh;
-    float recordLow;
-    float recordRain;
-    float recordSnow;
 };
 
 class KDE_EXPORT EnvGismeteoIon : public IonInterface
@@ -152,14 +72,16 @@ protected Q_SLOTS:
     void slotJobFinished(KJob *);
 
 private:
-    /* Environment Canada Methods - Internal for Ion */
+    /* Gismeteo Methods - Internal for Ion */
     void deleteForecasts();
 
     QMap<QString, ConditionIcons> setupConditionIconMappings(void) const;
     QMap<QString, ConditionIcons> setupForecastIconMappings(void) const;
+    QMap<QString, QString> setupForecastConditionMappings(void) const;
 
     QMap<QString, ConditionIcons> const& conditionIcons(void) const;
     QMap<QString, ConditionIcons> const& forecastIcons(void) const;
+    QMap<QString, QString> const& forecastConditions(void) const;
 
     // Load and parse the specific place(s)
     void getXMLData(const QString& source);

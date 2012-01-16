@@ -21,7 +21,7 @@ KDE Plasma Ion data engine for retrieving weather information from Gismeteo.
 
 
 %build
-%cmake . -DCMAKE_BUILD_TYPE=Debug
+%{cmake_kde4} -DCMAKE_BUILD_TYPE=Debug
 make %{?_smp_mflags}
 
 
