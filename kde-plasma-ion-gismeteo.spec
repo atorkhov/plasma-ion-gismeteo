@@ -13,7 +13,7 @@ Source0:        plasma-ion-gismeteo-%{version}.tar.bz2
 BuildRequires:  cmake qt-devel kdelibs-devel kdebase-workspace-devel qt-qlibxmlnodemodel-devel
 
 %description
-KDE Plasma Ion data engine for retrieving weather information from Gismeteo.
+KDE Plasma Ion data source for retrieving weather information from Gismeteo.
 
 
 %prep

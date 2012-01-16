@@ -39,6 +39,14 @@ class WeatherData
 public:
 
     // Current observation information.
+    QString date;
+    QString condition;
+    QString temperature;
+    QString pressure;
+    QString windDirection;
+    QString windSpeed;
+    QString humidity;
+    QString waterTemperature;
 
     struct Forecast
     {
@@ -78,10 +86,12 @@ private:
     QMap<QString, ConditionIcons> setupConditionIconMappings(void) const;
     QMap<QString, ConditionIcons> setupForecastIconMappings(void) const;
     QMap<QString, QString> setupForecastConditionMappings(void) const;
+    QMap<QString, WindDirections> setupWindIconMappings(void) const;
 
     QMap<QString, ConditionIcons> const& conditionIcons(void) const;
     QMap<QString, ConditionIcons> const& forecastIcons(void) const;
     QMap<QString, QString> const& forecastConditions(void) const;
+    QMap<QString, WindDirections> const& windIcons(void) const;
 
     // Load and parse the specific place(s)
     void getXMLData(const QString& source);

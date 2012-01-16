@@ -23,7 +23,7 @@ for $day in //div[@id='weather-daily']/div/div[2]/div
             <day> { data($day/dl/dt) } </day>
             <icon> { substring-after(data($day/img/@src), 'new/') } </icon>
             <temperature> { data($day/div) } </temperature>
-        </forecast>,
+        </forecast> ,
 <!--
 for $row in //div[@id='weather-daily']/div/div/table/tbody/tr
     return
