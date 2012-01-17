@@ -1,7 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Alexey Torkhov <atorkhov@gmail.com>             *
  *                                                                         *
- *   Based on KDE weather ions by Shawn Starr                        *
+ *   Based on KDE weather ions by Shawn Starr                              *
  *   Copyright (C) 2007-2009 by Shawn Starr <shawn.starr@rogers.com>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

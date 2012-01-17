@@ -1,7 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Alexey Torkhov <atorkhov@gmail.com>             *
  *                                                                         *
- *   Based on KDE weather ions by Shawn Starr                        *
+ *   Based on KDE weather ions by Shawn Starr                              *
  *   Copyright (C) 2007-2011 by Shawn Starr <shawn.starr@rogers.com>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -396,8 +396,8 @@ QMap<QString, QString> const& EnvGismeteoIon::forecastConditions(void) const
 
 QMap<QString, IonInterface::WindDirections> const& EnvGismeteoIon::windIcons(void) const
 {
-    static QMap<QString, WindDirections> const foreval = setupWindIconMappings();
-    return foreval;
+    static QMap<QString, WindDirections> const wval = setupWindIconMappings();
+    return wval;
 }
 
 QStringList EnvGismeteoIon::validate(const QString& source) const
