@@ -34,6 +34,7 @@
 #include <QStack>
 
 #include <KIO/Job>
+#include <KStandardDirs>
 #include <KUnitConversion/Converter>
 #include <Solid/Networking>
 #include <Plasma/DataContainer>
@@ -518,7 +519,7 @@ bool EnvGismeteoIon::readXMLData(const QString& source, const QByteArray& xml)
 
     // Setup query
     QFile queryFile;
-    queryFile.setFileName(PLASMA_ION_GISMETEO_SHARE_PATH "/gismeteo.xq");
+    queryFile.setFileName(KGlobal::dirs()->findResource("data", "plasma-ion-gismeteo/gismeteo.xq"));
     if (!queryFile.open(QIODevice::ReadOnly)) {
         kDebug() << "Can't open XQuery file" << PLASMA_ION_GISMETEO_SHARE_PATH "/gismeteo.xq";
         return false;
