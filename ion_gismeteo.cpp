@@ -97,7 +97,7 @@ void Receiver::atomicValue(const QVariant &val)
         if (currentElement == "date") {
             m_weatherData.date = value;
         } else if (currentElement == "condition") {
-            m_weatherData.date = value;
+            m_weatherData.condition = value;
         } else if (currentElement == "temperature") {
             if (value.endsWith(QString::fromUtf8("°C"))) {
                 value.chop(2);
@@ -547,6 +547,9 @@ void EnvGismeteoIon::updateWeather(const QString& source)
     Plasma::DataEngine::Data data;
 
     kDebug() << "updateWeather()";
+
+    // Real weather - Current conditions
+    data.insert("Current Conditions", i18nc("weather condition", m_weatherData[source].condition.toUtf8()));
 
     data.insert("Temperature", m_weatherData[source].temperature);
     data.insert("Temperature Unit", QString::number(KUnitConversion::Celsius));
