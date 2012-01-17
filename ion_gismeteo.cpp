@@ -177,13 +177,6 @@ QMap<QString, IonInterface::ConditionIcons> EnvGismeteoIon::setupConditionIconMa
 {
     QMap<QString, ConditionIcons> conditionList;
 
-    conditionList[QString::fromUtf8("малооблачно, небольшой дождь")] = LightRain;
-    conditionList[QString::fromUtf8("облачно")] = Overcast;
-    conditionList[QString::fromUtf8("пасмурно")] = Overcast;
-    conditionList[QString::fromUtf8("пасмурно, дымка")] = Mist;
-    conditionList[QString::fromUtf8("пасмурно, небольшой дождь")] = LightRain;
-    conditionList[QString::fromUtf8("пасмурно, дождь")] = Rain;
-
     return conditionList;
 }
 
@@ -191,93 +184,107 @@ QMap<QString, IonInterface::ConditionIcons> EnvGismeteoIon::setupForecastIconMap
 {
     QMap<QString, ConditionIcons> forecastList;
 
-    // Clouds + rain
+    // Clouds
     forecastList[QString::fromUtf8("d.sun.png")]            = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.c1.png")]         = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c2.png")]         = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c3.png")]         = PartlyCloudyDay;
+    forecastList[QString::fromUtf8("d.sun.c4.png")]         = Overcast;
+
+    // Clouds + rain
     forecastList[QString::fromUtf8("d.sun.r1.png")]         = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.r2.png")]         = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.r3.png")]         = ChanceShowersDay;
-    forecastList[QString::fromUtf8("d.sun.c1.png")]         = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.r4.png")]         = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c1.r1.png")]      = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c1.r2.png")]      = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c1.r3.png")]      = ChanceShowersDay;
-    forecastList[QString::fromUtf8("d.sun.c2.png")]         = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c1.r4.png")]      = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c2.r1.png")]      = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c2.r2.png")]      = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c2.r3.png")]      = Rain;
-    forecastList[QString::fromUtf8("d.sun.c3.png")]         = PartlyCloudyDay;
+    forecastList[QString::fromUtf8("d.sun.c2.r4.png")]      = Rain;
     forecastList[QString::fromUtf8("d.sun.c3.r1.png")]      = ChanceShowersDay;
     forecastList[QString::fromUtf8("d.sun.c3.r2.png")]      = LightRain;
     forecastList[QString::fromUtf8("d.sun.c3.r3.png")]      = Rain;
-    forecastList[QString::fromUtf8("d.sun.c4.png")]         = Overcast;
+    forecastList[QString::fromUtf8("d.sun.c3.r4.png")]      = Rain;
     forecastList[QString::fromUtf8("d.sun.c4.r1.png")]      = Showers;
     forecastList[QString::fromUtf8("d.sun.c4.r2.png")]      = LightRain;
     forecastList[QString::fromUtf8("d.sun.c4.r3.png")]      = Rain;
+    forecastList[QString::fromUtf8("d.sun.c4.r4.png")]      = Rain;
+
+    // Clouds + thunderstorm
+    forecastList[QString::fromUtf8("d.sun.st.png")]         = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.c1.st.png")]      = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.c2.st.png")]      = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c3.st.png")]      = PartlyCloudyDay;
+    forecastList[QString::fromUtf8("d.sun.c4.st.png")]      = Overcast;
 
     // Clouds + rain + thunderstorm
-    forecastList[QString::fromUtf8("d.sun.st.png")]         = ClearDay;
     forecastList[QString::fromUtf8("d.sun.r1.st.png")]      = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.r2.st.png")]      = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.r3.st.png")]      = ChanceThunderstormDay;
-    forecastList[QString::fromUtf8("d.sun.c1.st.png")]      = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.r4.st.png")]      = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c1.r1.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c1.r2.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c1.r3.st.png")]   = ChanceThunderstormDay;
-    forecastList[QString::fromUtf8("d.sun.c2.st.png")]      = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c1.r4.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c2.r1.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c2.r2.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c2.r3.st.png")]   = Thunderstorm;
-    forecastList[QString::fromUtf8("d.sun.c3.st.png")]      = PartlyCloudyDay;
+    forecastList[QString::fromUtf8("d.sun.c2.r4.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c3.r1.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c3.r2.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c3.r3.st.png")]   = Thunderstorm;
-    forecastList[QString::fromUtf8("d.sun.c4.st.png")]      = Overcast;
+    forecastList[QString::fromUtf8("d.sun.c3.r4.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c4.r1.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c4.r2.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c4.r3.st.png")]   = Thunderstorm;
+    forecastList[QString::fromUtf8("d.sun.c4.r4.st.png")]   = Thunderstorm;
 
     // Clouds + snow
-    //forecastList[QString::fromUtf8("d.sun.png")]            = ClearDay;
     forecastList[QString::fromUtf8("d.sun.s1.png")]         = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.s2.png")]         = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.s3.png")]         = ChanceSnowDay;
-    //forecastList[QString::fromUtf8("d.sun.c1.png")]         = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.s4.png")]         = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c1.s1.png")]      = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c1.s2.png")]      = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c1.s3.png")]      = ChanceSnowDay;
-    //forecastList[QString::fromUtf8("d.sun.c2.png")]         = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c1.s4.png")]      = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c2.s1.png")]      = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c2.s2.png")]      = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c2.s3.png")]      = Snow;
-    //forecastList[QString::fromUtf8("d.sun.c3.png")]         = PartlyCloudyDay;
+    forecastList[QString::fromUtf8("d.sun.c2.s4.png")]      = Snow;
     forecastList[QString::fromUtf8("d.sun.c3.s1.png")]      = ChanceSnowDay;
     forecastList[QString::fromUtf8("d.sun.c3.s2.png")]      = LightSnow;
     forecastList[QString::fromUtf8("d.sun.c3.s3.png")]      = Snow;
-    //forecastList[QString::fromUtf8("d.sun.c4.png")]         = Overcast;
+    forecastList[QString::fromUtf8("d.sun.c3.s4.png")]      = Snow;
     forecastList[QString::fromUtf8("d.sun.c4.s1.png")]      = Flurries;
     forecastList[QString::fromUtf8("d.sun.c4.s2.png")]      = LightSnow;
     forecastList[QString::fromUtf8("d.sun.c4.s3.png")]      = Snow;
+    forecastList[QString::fromUtf8("d.sun.c4.s4.png")]      = Snow;
 
     // Clouds + snow + thunderstorm
-    //forecastList[QString::fromUtf8("d.sun.st.png")]         = ClearDay;
     forecastList[QString::fromUtf8("d.sun.s1.st.png")]      = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.s2.st.png")]      = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.s3.st.png")]      = ChanceThunderstormDay;
-    //forecastList[QString::fromUtf8("d.sun.c1.st.png")]      = ClearDay;
+    forecastList[QString::fromUtf8("d.sun.s4.st.png")]      = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c1.s1.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c1.s2.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c1.s3.st.png")]   = ChanceThunderstormDay;
-    //forecastList[QString::fromUtf8("d.sun.c2.st.png")]      = FewCloudsDay;
+    forecastList[QString::fromUtf8("d.sun.c1.s4.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c2.s1.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c2.s2.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c2.s3.st.png")]   = Thunderstorm;
-    //forecastList[QString::fromUtf8("d.sun.c3.st.png")]      = PartlyCloudyDay;
+    forecastList[QString::fromUtf8("d.sun.c2.s4.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c3.s1.st.png")]   = ChanceThunderstormDay;
     forecastList[QString::fromUtf8("d.sun.c3.s2.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c3.s3.st.png")]   = Thunderstorm;
-    //forecastList[QString::fromUtf8("d.sun.c4.st.png")]      = Overcast;
+    forecastList[QString::fromUtf8("d.sun.c3.s4.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c4.s1.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c4.s2.st.png")]   = Thunderstorm;
     forecastList[QString::fromUtf8("d.sun.c4.s3.st.png")]   = Thunderstorm;
+    forecastList[QString::fromUtf8("d.sun.c4.s4.st.png")]   = Thunderstorm;
  
     return forecastList;
 }
@@ -286,77 +293,103 @@ QMap<QString, QString> EnvGismeteoIon::setupForecastConditionMappings(void) cons
 {
     QMap<QString, QString> forecastList;
 
-    // Clouds + rain
-    forecastList[QString::fromUtf8("d.sun.c1.png")]         = QString::fromUtf8("Ясно");
-    forecastList[QString::fromUtf8("d.sun.c1.r1.png")]      = QString::fromUtf8("Ясно, небольшой дождь");
-    forecastList[QString::fromUtf8("d.sun.c1.r2.png")]      = QString::fromUtf8("Ясно, дождь");
-    forecastList[QString::fromUtf8("d.sun.c1.r3.png")]      = QString::fromUtf8("Ясно, ливень");
+    // Clouds
+    forecastList[QString::fromUtf8("d.sun.png")]            = QString::fromUtf8("Ясно");
+    forecastList[QString::fromUtf8("d.sun.c1.png")]         = QString::fromUtf8("Малооблачно");
     forecastList[QString::fromUtf8("d.sun.c2.png")]         = QString::fromUtf8("Малооблачно");
+    forecastList[QString::fromUtf8("d.sun.c3.png")]         = QString::fromUtf8("Облачно");
+    forecastList[QString::fromUtf8("d.sun.c4.png")]         = QString::fromUtf8("Пасмурно");
+
+    // Clouds + rain
+    forecastList[QString::fromUtf8("d.sun.r1.png")]         = QString::fromUtf8("Ясно, небольшой дождь");
+    forecastList[QString::fromUtf8("d.sun.r2.png")]         = QString::fromUtf8("Ясно, дождь");
+    forecastList[QString::fromUtf8("d.sun.r3.png")]         = QString::fromUtf8("Ясно, сильный дождь");
+    forecastList[QString::fromUtf8("d.sun.r4.png")]         = QString::fromUtf8("Ясно, ливень");
+    forecastList[QString::fromUtf8("d.sun.c1.r1.png")]      = QString::fromUtf8("Малооблачно, небольшой дождь");
+    forecastList[QString::fromUtf8("d.sun.c1.r2.png")]      = QString::fromUtf8("Малооблачно, дождь");
+    forecastList[QString::fromUtf8("d.sun.c1.r3.png")]      = QString::fromUtf8("Малооблачно, сильный дождь");
+    forecastList[QString::fromUtf8("d.sun.c1.r4.png")]      = QString::fromUtf8("Малооблачно, ливень");
     forecastList[QString::fromUtf8("d.sun.c2.r1.png")]      = QString::fromUtf8("Малооблачно, небольшой дождь");
     forecastList[QString::fromUtf8("d.sun.c2.r2.png")]      = QString::fromUtf8("Малооблачно, дождь");
     forecastList[QString::fromUtf8("d.sun.c2.r3.png")]      = QString::fromUtf8("Малооблачно, ливень");
-    forecastList[QString::fromUtf8("d.sun.c3.png")]         = QString::fromUtf8("Облачно");
+    forecastList[QString::fromUtf8("d.sun.c2.r4.png")]      = QString::fromUtf8("Малооблачно, ливень");
     forecastList[QString::fromUtf8("d.sun.c3.r1.png")]      = QString::fromUtf8("Облачно, небольшой дождь");
     forecastList[QString::fromUtf8("d.sun.c3.r2.png")]      = QString::fromUtf8("Облачно, дождь");
-    forecastList[QString::fromUtf8("d.sun.c3.r3.png")]      = QString::fromUtf8("Облачно, ливень");
-    forecastList[QString::fromUtf8("d.sun.c4.png")]         = QString::fromUtf8("Пасмурно");
+    forecastList[QString::fromUtf8("d.sun.c3.r3.png")]      = QString::fromUtf8("Облачно, сильный дождь");
+    forecastList[QString::fromUtf8("d.sun.c3.r4.png")]      = QString::fromUtf8("Облачно, ливень");
     forecastList[QString::fromUtf8("d.sun.c4.r1.png")]      = QString::fromUtf8("Пасмурно, небольшой дождь");
     forecastList[QString::fromUtf8("d.sun.c4.r2.png")]      = QString::fromUtf8("Пасмурно, дождь");
-    forecastList[QString::fromUtf8("d.sun.c4.r3.png")]      = QString::fromUtf8("Пасмурно, ливень");
+    forecastList[QString::fromUtf8("d.sun.c4.r3.png")]      = QString::fromUtf8("Пасмурно, сильный дождь");
+    forecastList[QString::fromUtf8("d.sun.c4.r4.png")]      = QString::fromUtf8("Пасмурно, ливень");
+
+    // Clouds + thunderstorm
+    forecastList[QString::fromUtf8("d.sun.st.png")]         = QString::fromUtf8("Ясно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.st.png")]      = QString::fromUtf8("Малооблачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c2.st.png")]      = QString::fromUtf8("Малооблачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c3.st.png")]      = QString::fromUtf8("Облачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c4.st.png")]      = QString::fromUtf8("Пасмурно, гроза");
 
     // Clouds + rain + thunderstorm
-    forecastList[QString::fromUtf8("d.sun.c1.st.png")]      = QString::fromUtf8("Ясно, гроза");
-    forecastList[QString::fromUtf8("d.sun.c1.r1.st.png")]   = QString::fromUtf8("Ясно, небольшой дождь, гроза");
-    forecastList[QString::fromUtf8("d.sun.c1.r2.st.png")]   = QString::fromUtf8("Ясно, дождь, гроза");
-    forecastList[QString::fromUtf8("d.sun.c1.r3.st.png")]   = QString::fromUtf8("Ясно, ливень, гроза");
-    forecastList[QString::fromUtf8("d.sun.c2.st.png")]      = QString::fromUtf8("Малооблачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.r1.st.png")]   = QString::fromUtf8("Малооблачно, небольшой дождь, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.r2.st.png")]   = QString::fromUtf8("Малооблачно, дождь, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.r3.st.png")]   = QString::fromUtf8("Малооблачно, сильный дождь, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.r4.st.png")]   = QString::fromUtf8("Малооблачно, ливень, гроза");
     forecastList[QString::fromUtf8("d.sun.c2.r1.st.png")]   = QString::fromUtf8("Малооблачно, небольшой дождь, гроза");
     forecastList[QString::fromUtf8("d.sun.c2.r2.st.png")]   = QString::fromUtf8("Малооблачно, дождь, гроза");
-    forecastList[QString::fromUtf8("d.sun.c2.r3.st.png")]   = QString::fromUtf8("Малооблачно, ливень, гроза");
-    forecastList[QString::fromUtf8("d.sun.c3.st.png")]      = QString::fromUtf8("Облачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c2.r3.st.png")]   = QString::fromUtf8("Малооблачно, сильный дождь, гроза");
+    forecastList[QString::fromUtf8("d.sun.c2.r4.st.png")]   = QString::fromUtf8("Малооблачно, ливень, гроза");
     forecastList[QString::fromUtf8("d.sun.c3.r1.st.png")]   = QString::fromUtf8("Облачно, небольшой дождь, гроза");
     forecastList[QString::fromUtf8("d.sun.c3.r2.st.png")]   = QString::fromUtf8("Облачно, дождь, гроза");
-    forecastList[QString::fromUtf8("d.sun.c3.r3.st.png")]   = QString::fromUtf8("Облачно, ливень, гроза");
-    forecastList[QString::fromUtf8("d.sun.c4.st.png")]      = QString::fromUtf8("Пасмурно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c3.r3.st.png")]   = QString::fromUtf8("Облачно, сильный дождь, гроза");
+    forecastList[QString::fromUtf8("d.sun.c3.r4.st.png")]   = QString::fromUtf8("Облачно, ливень, гроза");
     forecastList[QString::fromUtf8("d.sun.c4.r1.st.png")]   = QString::fromUtf8("Пасмурно, небольшой дождь, гроза");
     forecastList[QString::fromUtf8("d.sun.c4.r2.st.png")]   = QString::fromUtf8("Пасмурно, дождь, гроза");
-    forecastList[QString::fromUtf8("d.sun.c4.r3.st.png")]   = QString::fromUtf8("Пасмурно, ливень, гроза");
+    forecastList[QString::fromUtf8("d.sun.c4.r3.st.png")]   = QString::fromUtf8("Пасмурно, сильный дождь, гроза");
+    forecastList[QString::fromUtf8("d.sun.c3.r4.st.png")]   = QString::fromUtf8("Облачно, ливень, гроза");
 
     // Clouds + snow
-    //forecastList[QString::fromUtf8("d.sun.c1.png")]         = QString::fromUtf8("Ясно");
-    forecastList[QString::fromUtf8("d.sun.c1.s1.png")]      = QString::fromUtf8("Ясно, небольшой снег");
-    forecastList[QString::fromUtf8("d.sun.c1.s2.png")]      = QString::fromUtf8("Ясно, снег");
-    forecastList[QString::fromUtf8("d.sun.c1.s3.png")]      = QString::fromUtf8("Ясно, сильный снег");
-    //forecastList[QString::fromUtf8("d.sun.c2.png")]         = QString::fromUtf8("Малооблачно");
+    forecastList[QString::fromUtf8("d.sun.s1.png")]         = QString::fromUtf8("Ясно, небольшой снег");
+    forecastList[QString::fromUtf8("d.sun.s2.png")]         = QString::fromUtf8("Ясно, снег");
+    forecastList[QString::fromUtf8("d.sun.s3.png")]         = QString::fromUtf8("Ясно, сильный снег");
+    forecastList[QString::fromUtf8("d.sun.s4.png")]         = QString::fromUtf8("Ясно, буран");
+    forecastList[QString::fromUtf8("d.sun.c1.s1.png")]      = QString::fromUtf8("Малооблачно, небольшой снег");
+    forecastList[QString::fromUtf8("d.sun.c1.s2.png")]      = QString::fromUtf8("Малооблачно, снег");
+    forecastList[QString::fromUtf8("d.sun.c1.s3.png")]      = QString::fromUtf8("Малооблачно, сильный снег");
+    forecastList[QString::fromUtf8("d.sun.c1.s4.png")]      = QString::fromUtf8("Малооблачно, буран");
     forecastList[QString::fromUtf8("d.sun.c2.s1.png")]      = QString::fromUtf8("Малооблачно, небольшой снег");
     forecastList[QString::fromUtf8("d.sun.c2.s2.png")]      = QString::fromUtf8("Малооблачно, снег");
     forecastList[QString::fromUtf8("d.sun.c2.s3.png")]      = QString::fromUtf8("Малооблачно, сильный снег");
-    //forecastList[QString::fromUtf8("d.sun.c3.png")]         = QString::fromUtf8("Облачно");
+    forecastList[QString::fromUtf8("d.sun.c2.s4.png")]      = QString::fromUtf8("Малооблачно, буран");
     forecastList[QString::fromUtf8("d.sun.c3.s1.png")]      = QString::fromUtf8("Облачно, небольшой снег");
     forecastList[QString::fromUtf8("d.sun.c3.s2.png")]      = QString::fromUtf8("Облачно, снег");
     forecastList[QString::fromUtf8("d.sun.c3.s3.png")]      = QString::fromUtf8("Облачно, сильный снег");
-    //forecastList[QString::fromUtf8("d.sun.c4.png")]         = QString::fromUtf8("Пасмурно");
+    forecastList[QString::fromUtf8("d.sun.c3.s4.png")]      = QString::fromUtf8("Облачно, буран");
     forecastList[QString::fromUtf8("d.sun.c4.s1.png")]      = QString::fromUtf8("Пасмурно, небольшой снег");
     forecastList[QString::fromUtf8("d.sun.c4.s2.png")]      = QString::fromUtf8("Пасмурно, снег");
     forecastList[QString::fromUtf8("d.sun.c4.s3.png")]      = QString::fromUtf8("Пасмурно, сильный снег");
+    forecastList[QString::fromUtf8("d.sun.c4.s4.png")]      = QString::fromUtf8("Пасмурно, буран");
 
     // Clouds + snow + thunderstorm
-    //forecastList[QString::fromUtf8("d.sun.c1.st.png")]      = QString::fromUtf8("Ясно");
-    forecastList[QString::fromUtf8("d.sun.c1.s1.st.png")]   = QString::fromUtf8("Ясно, небольшой снег, гроза");
-    forecastList[QString::fromUtf8("d.sun.c1.s2.st.png")]   = QString::fromUtf8("Ясно, снег, гроза");
-    forecastList[QString::fromUtf8("d.sun.c1.s3.st.png")]   = QString::fromUtf8("Ясно, сильный снег, гроза");
-    //forecastList[QString::fromUtf8("d.sun.c2.st.png")]      = QString::fromUtf8("Малооблачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.s1.st.png")]      = QString::fromUtf8("Ясно, небольшой снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.s2.st.png")]      = QString::fromUtf8("Ясно, снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.s3.st.png")]      = QString::fromUtf8("Ясно, сильный снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.s4.st.png")]      = QString::fromUtf8("Ясно, буран, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.s1.st.png")]   = QString::fromUtf8("Малооблачно, небольшой снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.s2.st.png")]   = QString::fromUtf8("Малооблачно, снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.s3.st.png")]   = QString::fromUtf8("Малооблачно, сильный снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.c1.s4.st.png")]   = QString::fromUtf8("Малооблачно, буран, гроза");
     forecastList[QString::fromUtf8("d.sun.c2.s1.st.png")]   = QString::fromUtf8("Малооблачно, небольшой снег, гроза");
     forecastList[QString::fromUtf8("d.sun.c2.s2.st.png")]   = QString::fromUtf8("Малооблачно, снег, гроза");
     forecastList[QString::fromUtf8("d.sun.c2.s3.st.png")]   = QString::fromUtf8("Малооблачно, сильный снег, гроза");
-    //forecastList[QString::fromUtf8("d.sun.c3.st.png")]      = QString::fromUtf8("Облачно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c2.s4.st.png")]   = QString::fromUtf8("Малооблачно, буран, гроза");
     forecastList[QString::fromUtf8("d.sun.c3.s1.st.png")]   = QString::fromUtf8("Облачно, небольшой снег, гроза");
     forecastList[QString::fromUtf8("d.sun.c3.s2.st.png")]   = QString::fromUtf8("Облачно, снег, гроза");
     forecastList[QString::fromUtf8("d.sun.c3.s3.st.png")]   = QString::fromUtf8("Облачно, сильный снег, гроза");
-    //forecastList[QString::fromUtf8("d.sun.c4.st.png")]      = QString::fromUtf8("Пасмурно, гроза");
+    forecastList[QString::fromUtf8("d.sun.c3.s4.st.png")]   = QString::fromUtf8("Облачно, буран, гроза");
     forecastList[QString::fromUtf8("d.sun.c4.s1.st.png")]   = QString::fromUtf8("Пасмурно, небольшой снег, гроза");
     forecastList[QString::fromUtf8("d.sun.c4.s2.st.png")]   = QString::fromUtf8("Пасмурно, снег, гроза");
     forecastList[QString::fromUtf8("d.sun.c4.s3.st.png")]   = QString::fromUtf8("Пасмурно, сильный снег, гроза");
+    forecastList[QString::fromUtf8("d.sun.c4.s4.st.png")]   = QString::fromUtf8("Пасмурно, буран, гроза");
 
     return forecastList;
 }
