@@ -361,6 +361,19 @@ QMap<QString, QString> EnvGismeteoIon::setupForecastConditionMappings(void) cons
     return forecastList;
 }
 
+QMap<QString, QString> EnvGismeteoIon::setupDayMappings(void) const
+{
+    QMap<QString, QString> days;
+    days[QString::fromUtf8("пн")] = QDate::shortDayName(1, QDate::StandaloneFormat);
+    days[QString::fromUtf8("вт")] = QDate::shortDayName(2, QDate::StandaloneFormat);
+    days[QString::fromUtf8("ср")] = QDate::shortDayName(3, QDate::StandaloneFormat);
+    days[QString::fromUtf8("чт")] = QDate::shortDayName(4, QDate::StandaloneFormat);
+    days[QString::fromUtf8("пт")] = QDate::shortDayName(5, QDate::StandaloneFormat);
+    days[QString::fromUtf8("сб")] = QDate::shortDayName(6, QDate::StandaloneFormat);
+    days[QString::fromUtf8("вс")] = QDate::shortDayName(7, QDate::StandaloneFormat);
+    return days;
+}
+
 QMap<QString, IonInterface::WindDirections> EnvGismeteoIon::setupWindIconMappings(void) const
 {
     QMap<QString, WindDirections> windDir;
@@ -392,6 +405,12 @@ QMap<QString, QString> const& EnvGismeteoIon::forecastConditions(void) const
 {
     static QMap<QString, QString> const foreval = setupForecastConditionMappings();
     return foreval;
+}
+
+QMap<QString, QString> const& EnvGismeteoIon::dayMap(void) const
+{
+    static QMap<QString, QString> const dayval = setupDayMappings();
+    return dayval;
 }
 
 QMap<QString, IonInterface::WindDirections> const& EnvGismeteoIon::windIcons(void) const
@@ -569,7 +588,7 @@ void EnvGismeteoIon::updateWeather(const QString& source)
     int dayIndex = 0;
     foreach(const WeatherData::Forecast &forecast, m_weatherData[source].forecasts) {
         data.insert(QString("Short Forecast Day %1").arg(dayIndex), QString("%1|%2|%3|%4|%5|%6")
-                .arg(forecast.day)
+                .arg(dayMap()[forecast.day.toLower()])
                 .arg(getWeatherIcon(forecastIcons(), forecast.icon))
                 .arg(forecastConditions().value(forecast.icon))
                 .arg(forecast.temperatureHigh)

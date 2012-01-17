@@ -86,11 +86,13 @@ private:
     QMap<QString, ConditionIcons> setupConditionIconMappings(void) const;
     QMap<QString, ConditionIcons> setupForecastIconMappings(void) const;
     QMap<QString, QString> setupForecastConditionMappings(void) const;
+    QMap<QString, QString> setupDayMappings(void) const;
     QMap<QString, WindDirections> setupWindIconMappings(void) const;
 
     QMap<QString, ConditionIcons> const& conditionIcons(void) const;
     QMap<QString, ConditionIcons> const& forecastIcons(void) const;
     QMap<QString, QString> const& forecastConditions(void) const;
+    QMap<QString, QString> const& dayMap(void) const;
     QMap<QString, WindDirections> const& windIcons(void) const;
 
     // Load and parse the specific place(s)
