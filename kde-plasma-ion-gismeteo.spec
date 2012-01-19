@@ -2,7 +2,7 @@
 
 Name:           kde-plasma-ion-gismeteo
 Version:        0.1
-Release:        1%{?dist}.R
+Release:        1%{?dist}
 Summary:        KDE Plasma Ion data source for Gismeteo
 
 Group:          User Interface/Desktops
