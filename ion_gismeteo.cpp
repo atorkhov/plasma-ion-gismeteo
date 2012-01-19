@@ -22,8 +22,6 @@
 
 /* Ion for Gismeteo data */
 
-#include "config.h"
-
 #include "ion_gismeteo.h"
 
 #include <QXmlQuery>
