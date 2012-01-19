@@ -574,7 +574,7 @@ void EnvGismeteoIon::getWeather(const QString& code, const QString& source)
     kDebug() << source;
 
     KUrl url = QString("http://www.gismeteo.ru/city/daily/" + code + "/");
-    url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/4368.html";
+    //url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/4368.html";
     kDebug() << "Will Try URL: " << url;
 
     KIO::TransferJob* const newJob  = KIO::get(url.url(), KIO::Reload, KIO::HideProgressInfo);
@@ -591,7 +591,7 @@ void EnvGismeteoIon::getWeather(const QString& code, const QString& source)
 void EnvGismeteoIon::findPlace(const QString& place, const QString& source)
 {
     KUrl url = QString("http://www.gismeteo.ru/city/?gis0=" + place + "&searchQueryData=");
-    url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/search.html";
+    //url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/search.html";
     kDebug() << "Will Try URL: " << url;
 
     KIO::TransferJob* const newJob  = KIO::get(url.url(), KIO::Reload, KIO::HideProgressInfo);
