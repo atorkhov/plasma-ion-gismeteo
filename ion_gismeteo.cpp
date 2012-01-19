@@ -41,6 +41,7 @@
 
 #include <qlibxmlnodemodel.h>
 
+// Receiver for html weather data
 class Receiver : public QAbstractXmlReceiver
 {
 public:
@@ -71,6 +72,7 @@ Receiver::Receiver(const QXmlNamePool &namePool, WeatherData &weatherData)
 {
 }
 
+// Called for every element
 void Receiver::startElement(const QXmlName &xmlname)
 {
     QString name = xmlname.localName(m_namePool);
@@ -86,14 +88,15 @@ void Receiver::endElement()
     m_elements.pop();
 }
 
+// Called for every text node
 void Receiver::atomicValue(const QVariant &val)
 {
     QString value = val.toString();
     QString currentElement = m_elements.top();
 
-    if (m_weatherData.forecasts.empty()) {
-        kDebug() << currentElement << value;
+    kDebug() << currentElement << value;
 
+    if (m_weatherData.forecasts.empty()) {
         if (currentElement == "date") {
             m_weatherData.date = value;
         } else if (currentElement == "condition") {
@@ -129,8 +132,6 @@ void Receiver::atomicValue(const QVariant &val)
     } else {
         WeatherData::Forecast &currentForecast = m_weatherData.forecasts.back();
 
-        kDebug() << currentElement << value;
-
         if (currentElement == "day") {
             currentForecast.day = value;
         } else if (currentElement == "icon") {
@@ -150,6 +151,84 @@ void Receiver::atomicValue(const QVariant &val)
         }
     }
 }
+
+// Receiver for html search data
+class SearchReceiver : public QAbstractXmlReceiver
+{
+public:
+    SearchReceiver(const QXmlNamePool &namePool, QList<EnvGismeteoIon::XMLMapInfo> &places);
+    void atomicValue(const QVariant &);
+    void endElement();
+    void startElement(const QXmlName &name);
+
+    void attribute(const QXmlName &, const QStringRef &) {};
+    void characters(const QStringRef &) {}
+    void comment(const QString &) {}
+    void endDocument() {}
+    void endOfSequence() {}
+    void namespaceBinding(const QXmlName &) {}
+    void processingInstruction(const QXmlName &, const QString &) {}
+    void startDocument() {}
+    void startOfSequence() {}
+
+    QList<EnvGismeteoIon::XMLMapInfo> &m_places;
+
+private:
+    QXmlNamePool m_namePool;
+    QStack<QString> m_elements;
+
+    EnvGismeteoIon::XMLMapInfo m_currentPlace;
+};
+
+SearchReceiver::SearchReceiver(const QXmlNamePool &namePool, QList<EnvGismeteoIon::XMLMapInfo> &places)
+    : m_places(places), m_namePool(namePool)
+{
+}
+
+// Called for every element
+void SearchReceiver::startElement(const QXmlName &xmlname)
+{
+    QString name = xmlname.localName(m_namePool);
+    m_elements.push(name);
+
+    if (name == "place") {
+        m_currentPlace = EnvGismeteoIon::XMLMapInfo();
+        m_currentPlace.id = 0;
+    }
+}
+
+void SearchReceiver::endElement()
+{
+    QString currentElement = m_elements.top();
+
+    if (currentElement == "place") {
+        m_places.append(m_currentPlace);
+    }
+
+    m_elements.pop();
+}
+
+// Called for every text nodeurl
+void SearchReceiver::atomicValue(const QVariant &val)
+{
+    QString value = val.toString();
+    QString currentElement = m_elements.top();
+
+    kDebug() << currentElement << value;
+
+    if (currentElement == "name") {
+        m_currentPlace.name = value;
+    } else if (currentElement == "link") {
+        m_currentPlace.link = value;
+
+        QRegExp rxlink("/city/daily/([0-9]+)/");
+        int pos = rxlink.indexIn(value);
+        if (pos > -1) {
+            m_currentPlace.id = rxlink.cap(1).toInt();
+        }
+    }
+}
+
 
 // ctor, dtor
 EnvGismeteoIon::EnvGismeteoIon(QObject *parent, const QVariantList &args)
@@ -452,14 +531,6 @@ QMap<QString, IonInterface::WindDirections> const& EnvGismeteoIon::windIcons(voi
     return wval;
 }
 
-QStringList EnvGismeteoIon::validate(const QString& source) const
-{
-    kDebug() << "validate()";
-    QStringList placeList;
-    placeList.append(QString::fromUtf8("place|Москва|extra|4368"));
-    return placeList;
-}
-
 // Get a specific Ion's data
 bool EnvGismeteoIon::updateIonSource(const QString& source)
 {
@@ -478,21 +549,10 @@ bool EnvGismeteoIon::updateIonSource(const QString& source)
     }
 
     if (sourceAction[1] == "validate" && sourceAction.size() > 2) {
-        QStringList result = validate(sourceAction[2]);
-
-        if (result.size() == 1) {
-            setData(source, "validate", QString("gismeteo|valid|single|").append(result.join("|")));
-            return true;
-        } else if (result.size() > 1) {
-            setData(source, "validate", QString("gismeteo|valid|multiple|").append(result.join("|")));
-            return true;
-        } else if (result.size() == 0) {
-            setData(source, "validate", QString("gismeteo|invalid|single|").append(sourceAction[2]));
-            return true;
-        }
-
-    } else if (sourceAction[1] == "weather" && sourceAction.size() > 2) {
-        getXMLData(source);
+        findPlace(sourceAction[2], source);
+        return true;
+    } else if (sourceAction[1] == "weather" && sourceAction.size() > 3) {
+        getWeather(sourceAction[3], source);
         return true;
     } else {
         setData(source, "validate", "gismeteo|malformed");
@@ -501,8 +561,8 @@ bool EnvGismeteoIon::updateIonSource(const QString& source)
     return false;
 }
 
-// Gets specific city XML data
-void EnvGismeteoIon::getXMLData(const QString& source)
+// Gets weather for a city
+void EnvGismeteoIon::getWeather(const QString& code, const QString& source)
 {
     foreach (const QString &fetching, m_jobList) {
         if (fetching == source) {
@@ -513,12 +573,8 @@ void EnvGismeteoIon::getXMLData(const QString& source)
 
     kDebug() << source;
 
-    // Demunge source name for key only.
-    QString dataKey = source;
-    dataKey.remove("gismeteo|weather|");
-
-    KUrl url = QString("http://www.gismeteo.ru/city/hourly/" + dataKey + "/");
-    url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/4368.xml";
+    KUrl url = QString("http://www.gismeteo.ru/city/daily/" + code + "/");
+    url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/4368.html";
     kDebug() << "Will Try URL: " << url;
 
     KIO::TransferJob* const newJob  = KIO::get(url.url(), KIO::Reload, KIO::HideProgressInfo);
@@ -531,14 +587,29 @@ void EnvGismeteoIon::getXMLData(const QString& source)
     connect(newJob, SIGNAL(result(KJob*)), this, SLOT(slotJobFinished(KJob*)));
 }
 
+// Search for a city
+void EnvGismeteoIon::findPlace(const QString& place, const QString& source)
+{
+    KUrl url = QString("http://www.gismeteo.ru/city/?gis0=" + place + "&searchQueryData=");
+    url = "file:///home/alex/Develop/kde/plasma-ion-gismeteo/search.html";
+    kDebug() << "Will Try URL: " << url;
+
+    KIO::TransferJob* const newJob  = KIO::get(url.url(), KIO::Reload, KIO::HideProgressInfo);
+
+    m_searchJobXml.insert(newJob, QByteArray());
+    m_searchJobList.insert(newJob, source);
+
+    connect(newJob, SIGNAL(data(KIO::Job*,QByteArray)), this,
+            SLOT(setup_slotDataArrived(KIO::Job*,QByteArray)));
+    connect(newJob, SIGNAL(result(KJob*)), this, SLOT(setup_slotJobFinished(KJob*)));
+}
+
 void EnvGismeteoIon::slotDataArrived(KIO::Job *job, const QByteArray &data)
 {
-
     if (data.isEmpty() || !m_jobXml.contains(job)) {
         return;
     }
 
-    // Send to xml.
     m_jobXml[job].append(data);
 }
 
@@ -549,21 +620,44 @@ void EnvGismeteoIon::slotJobFinished(KJob *job)
     setData(source, Data());
 
     const QByteArray &data = m_jobXml.value(job);
-    readXMLData(source, data);
+    readHTMLData(source, data);
     updateWeather(source);
 
     m_jobList.remove(job);
     m_jobXml.remove(job);
 }
 
-// Parse Weather data main loop, from here we have to decend into each tag pair
-bool EnvGismeteoIon::readXMLData(const QString& source, const QByteArray& xml)
+void EnvGismeteoIon::setup_slotDataArrived(KIO::Job *job, const QByteArray &data)
+{
+    if (data.isEmpty() || !m_searchJobXml.contains(job)) {
+        return;
+    }
+
+    m_searchJobXml[job].append(data);
+}
+
+void EnvGismeteoIon::setup_slotJobFinished(KJob *job)
+{
+    // Dual use method, if we're fetching location data to parse we need to do this first
+    const QString source = m_searchJobList.value(job);
+    setData(source, Data());
+
+    const QByteArray &data = m_searchJobXml.value(job);
+    readSearchHTMLData(source, data);
+    validate(source);
+
+    m_searchJobList.remove(job);
+    m_searchJobXml.remove(job);
+}
+
+// Parse Weather
+bool EnvGismeteoIon::readHTMLData(const QString& source, const QByteArray& xml)
 {
     WeatherData data;
 
     QXmlQuery query;
 
-    kDebug() << "readXMLData()";
+    kDebug() << "readHTMLData()";
 
     // Setup model
     QLibXmlNodeModel model(query.namePool(), xml, QUrl());
@@ -573,7 +667,7 @@ bool EnvGismeteoIon::readXMLData(const QString& source, const QByteArray& xml)
     QFile queryFile;
     queryFile.setFileName(KGlobal::dirs()->findResource("data", "plasma-ion-gismeteo/gismeteo.xq"));
     if (!queryFile.open(QIODevice::ReadOnly)) {
-        kDebug() << "Can't open XQuery file" << PLASMA_ION_GISMETEO_SHARE_PATH "/gismeteo.xq";
+        kDebug() << "Can't open XQuery file" << queryFile.fileName();
         return false;
     }
     query.setQuery(&queryFile, QUrl::fromLocalFile(queryFile.fileName()));
@@ -591,7 +685,45 @@ bool EnvGismeteoIon::readXMLData(const QString& source, const QByteArray& xml)
 
     m_weatherData[source] = data;
 
-    return false;
+    return true;
+}
+
+// Parse search results
+bool EnvGismeteoIon::readSearchHTMLData(const QString& source, const QByteArray& xml)
+{
+    QList<XMLMapInfo> data;
+
+    QXmlQuery query;
+
+    kDebug() << "readSearchHTMLData()" << source << xml;
+
+    // Setup model
+    QLibXmlNodeModel model(query.namePool(), xml, QUrl("file:///search"));
+    query.setFocus(model.dom());
+
+    // Setup query
+    QFile queryFile;
+    queryFile.setFileName(KGlobal::dirs()->findResource("data", "plasma-ion-gismeteo/gismeteo-search.xq"));
+    if (!queryFile.open(QIODevice::ReadOnly)) {
+        kDebug() << "Can't open XQuery file" << queryFile.fileName();
+        return false;
+    }
+    query.setQuery(&queryFile, QUrl::fromLocalFile(queryFile.fileName()));
+
+    if (!query.isValid()) {
+        kDebug() << "query is not valid";
+        return false;
+    }
+
+    // Setup a formatter
+    SearchReceiver receiver(query.namePool(), data);
+
+    // Evaluate query
+    query.evaluateTo(&receiver);
+
+    m_places[source] = data;
+
+    return true;
 }
 
 void EnvGismeteoIon::updateWeather(const QString& source)
@@ -638,6 +770,34 @@ void EnvGismeteoIon::updateWeather(const QString& source)
     setData(source, data);
 
     kDebug() << data;
+}
+
+void EnvGismeteoIon::validate(const QString& source)
+{
+    kDebug() << "validate()";
+
+    if (!m_places.contains(source)) {
+        return;
+    }
+
+    const QList<XMLMapInfo> &data = m_places[source];
+
+    QString placeList;
+    bool beginflag = true;
+
+    foreach(const XMLMapInfo &place, data) {
+        if (beginflag) {
+            placeList.append(QString("%1|extra|%2").arg(place.name).arg(place.id));
+            beginflag = false;
+        } else {
+            placeList.append(QString("|place|%1|extra|%2").arg(place.name).arg(place.id));
+        }
+    }
+    if (m_places.count() > 1) {
+        setData(source, "validate", QString("gismeteo|valid|multiple|place|%1").arg(placeList));
+    } else {
+        setData(source, "validate", QString("gismeteo|valid|single|place|%1").arg(placeList));
+    }
 }
 
 #include "ion_gismeteo.moc"

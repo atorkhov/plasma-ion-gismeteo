@@ -34,10 +34,10 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc CHANGELOG COPYING README
 %{_libdir}/kde4/ion_%{ion_name}.so
 %{_datadir}/kde4/apps/plasma-ion-%{ion_name}/%{ion_name}.xq
+%{_datadir}/kde4/apps/plasma-ion-%{ion_name}/%{ion_name}-search.xq
 %{_datadir}/kde4/services/ion-%{ion_name}.desktop
 
 
 %changelog
 * Thu Jan 11 2012 Alexey Torkhov <atorkhov@gmail.com> - 0.1-1
 - Initial package.
-

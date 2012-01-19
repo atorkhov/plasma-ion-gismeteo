@@ -68,6 +68,13 @@ public:
     ~EnvGismeteoIon();
     bool updateIonSource(const QString& source); // Sync data source with Applet
     void updateWeather(const QString& source);
+    void validate(const QString& source);
+
+    struct XMLMapInfo {
+        QString name;
+        QString link;
+        int id;
+    };
 
 public Q_SLOTS:
     virtual void reset();
@@ -78,6 +85,9 @@ protected:
 protected Q_SLOTS:
     void slotDataArrived(KIO::Job *, const QByteArray &);
     void slotJobFinished(KJob *);
+
+    void setup_slotDataArrived(KIO::Job *, const QByteArray &);
+    void setup_slotJobFinished(KJob *);
 
 private:
     /* Gismeteo Methods - Internal for Ion */
@@ -96,18 +106,24 @@ private:
     QMap<QString, WindDirections> const& windIcons(void) const;
 
     // Load and parse the specific place(s)
-    void getXMLData(const QString& source);
-    bool readXMLData(const QString& source, const QByteArray& xml);
+    void getWeather(const QString& code, const QString& source);
+    bool readHTMLData(const QString& source, const QByteArray& xml);
 
     // Check if place specified is valid or not
-    QStringList validate(const QString& source) const;
+    void findPlace(const QString& place, const QString& source);
+    bool readSearchHTMLData(const QString& source, const QByteArray& xml);
 
     // Weather information
     QHash<QString, WeatherData> m_weatherData;
+    QHash<QString, QList<EnvGismeteoIon::XMLMapInfo> > m_places;
 
     // Store KIO jobs
     QHash<KJob *, QByteArray> m_jobXml;
     QHash<KJob *, QString> m_jobList;
+
+    QHash<KJob *, QByteArray> m_searchJobXml;
+    QHash<KJob *, QString> m_searchJobList;
+
 
 };
 
