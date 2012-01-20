@@ -3,6 +3,7 @@ for $elem in //div[@id='weather']/div/div
         <current>
             <date> { data($elem/div[6]/span) } </date>
             <condition> { data($elem/dl/dd) } </condition>
+            <conditionIcon> { substring-before(substring-after(data($elem/dl/dt/@style), 'new/'), ')') } </conditionIcon>
             <temperature> { data($elem/div[2]) } </temperature>
             <pressure> { data($elem/div[3]) } </pressure>
             <windDirection> { data($elem/div[4]/dl/dt) } </windDirection>

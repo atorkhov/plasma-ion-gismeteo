@@ -99,6 +99,8 @@ void Receiver::atomicValue(const QVariant &val)
             m_weatherData.date = value;
         } else if (currentElement == "condition") {
             m_weatherData.condition = value;
+        } else if (currentElement == "conditionIcon") {
+            m_weatherData.conditionIcon = value;
         } else if (currentElement == "temperature") {
             if (value.endsWith(QString::fromUtf8("°C"))) {
                 value.chop(2);
@@ -732,6 +734,7 @@ void EnvGismeteoIon::updateWeather(const QString& source)
 
     // Real weather - Current conditions
     data.insert("Current Conditions", i18nc("weather condition", m_weatherData[source].condition.toUtf8()));
+    data.insert("Condition Icon", getWeatherIcon(forecastIcons(), m_weatherData[source].conditionIcon));
 
     data.insert("Temperature", m_weatherData[source].temperature);
     data.insert("Temperature Unit", QString::number(KUnitConversion::Celsius));

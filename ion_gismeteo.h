@@ -41,6 +41,7 @@ public:
     // Current observation information.
     QString date;
     QString condition;
+    QString conditionIcon;
     QString temperature;
     QString pressure;
     QString windDirection;
