@@ -137,13 +137,13 @@ void Receiver::atomicValue(const QVariant &val)
         } else if (currentElement == "temperature") {
             QStringList temp = value.split("..");
             if (temp.size() == 2) {
-                currentForecast.temperatureHigh = temp.at(0);
+                currentForecast.temperatureLow = temp.at(0);
                 if (temp[0].endsWith(QString::fromUtf8("°"))) {
-                    currentForecast.temperatureHigh.chop(1);
-                }
-                currentForecast.temperatureLow = temp.at(1);
-                if (temp[1].endsWith(QString::fromUtf8("°"))) {
                     currentForecast.temperatureLow.chop(1);
+                }
+                currentForecast.temperatureHigh = temp.at(1);
+                if (temp[1].endsWith(QString::fromUtf8("°"))) {
+                    currentForecast.temperatureHigh.chop(1);
                 }
             }
         }
