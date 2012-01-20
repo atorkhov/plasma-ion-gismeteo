@@ -3,7 +3,7 @@
 Name:           kde-plasma-ion-gismeteo
 Version:        0.1
 Release:        1%{?dist}
-Summary:        KDE Plasma Ion data source for Gismeteo
+Summary:        KDE Plasma Ion data provider for Gismeteo
 
 Group:          User Interface/Desktops
 License:        GPLv2+
@@ -13,7 +13,7 @@ Source0:        plasma-ion-gismeteo-%{version}.tar.bz2
 BuildRequires:  cmake qt-devel kdelibs-devel kdebase-workspace-devel qt-qlibxmlnodemodel-devel
 
 %description
-KDE Plasma Ion data source for retrieving weather information from Gismeteo.
+KDE Plasma Ion data provider for retrieving weather information from Gismeteo.
 
 
 %prep
